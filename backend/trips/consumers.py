@@ -22,7 +22,7 @@ class TripConsumer(AsyncJsonWebsocketConsumer):
             return
 
         # Verificar rol
-        logger.info(f"Usuario autenticado con ro: {user.rol}")
+        logger.info(f"Usuario autenticado con rol: {user.rol}")
 
         # if user.rol == "Conductor":
         #     self.group_name = f"drivers_{user.id}"
