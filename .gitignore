@@ -8,6 +8,11 @@ backend/media/
 tests
 todo.txt
 
+.env
+.env.development
+.env.staging
+.env.production
+
 # Django #
 *.log
 *.pot

@@ -40,15 +40,15 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: your-username/trips-app:latest
+          tags: gonzalopont/trips-app:latest
 
       - name: Deploy to VPS
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@main
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /path/to/app
+            cd ~/${{ github.repository }}
             docker-compose pull
             docker-compose up -d
