@@ -7,6 +7,26 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v2
 
@@ -23,6 +43,10 @@ jobs:
 
       - name: Run tests
         working-directory: ./backend
+        env:
+          DJANGO_SETTINGS_MODULE: backend.settings
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+          REDIS_URL: redis://localhost:6379/0
         run: |
           pytest -s --log-cli-level=DEBUG tests/test_consumers.py
 
