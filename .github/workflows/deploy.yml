@@ -102,7 +102,7 @@ jobs:
             cat > .env.development << EOL
             SECRET_KEY=${{ vars.SECRET_KEY }}
             REDIS_HOST=${{ vars.REDIS_HOST }}
-            REDIS_PORT=${{ vars.REDIS_PORT }}
+            REDIS_PORT=6380
             DB_NAME=${{ vars.DB_NAME }}
             DB_USER=${{ vars.DB_USER }}
             DB_PASSWORD=${{ vars.DB_PASSWORD }}
