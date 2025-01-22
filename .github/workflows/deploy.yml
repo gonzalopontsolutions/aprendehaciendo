@@ -91,9 +91,17 @@ jobs:
           port: 22
           debug: true
           script: |
-            echo "Testing connection"
-            whoami
-            pwd
-            cd ~/${{ github.repository }}
+            # Primero verificamos si el directorio existe
+            mkdir -p /root/***solutions/aprendehaciendo
+            cd /root/***solutions/aprendehaciendo || exit 1
+            
+            # Verificamos que docker y docker-compose están instalados
+            docker --version
+            docker-compose --version
+            
+            # Verificamos que el archivo docker-compose.yml existe
+            ls -la
+            
+            # Ahora sí ejecutamos los comandos de docker
             docker-compose pull
             docker-compose up -d
