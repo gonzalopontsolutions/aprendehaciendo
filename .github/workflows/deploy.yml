@@ -41,11 +41,21 @@ jobs:
           pip install -r requirements.txt
           pip install pytest pytest-django pytest-asyncio pytest-cov
 
+      - name: Create env file
+        run: |
+          cat << EOF > .env.development
+          SECRET_KEY=${{ vars.SECRET_KEY }}
+          REDIS_HOST=${{ vars.REDIS_HOST }}
+          REDIS_PORT=${{ vars.REDIS_PORT }}
+          DATABASE_URL=${{ vars.DATABASE_URL }}
+          DEBUG=${{ vars.DEBUG }}
+          ALLOWED_HOSTS=${{ vars.ALLOWED_HOSTS }}
+          EOF
+
       - name: Run tests
         working-directory: ./backend
         env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
-          REDIS_URL: redis://localhost:6379/0
+          ENVIRONMENT: development
         run: |
           pytest -s --log-cli-level=DEBUG tests/test_consumers.py
 
