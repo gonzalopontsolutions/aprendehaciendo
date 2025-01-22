@@ -86,11 +86,14 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          # key: ${{ secrets.SERVER_SSH_KEY }}
+          username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
+          debug: true
           script: |
+            echo "Testing connection"
+            whoami
+            pwd
             cd ~/${{ github.repository }}
             docker-compose pull
             docker-compose up -d
