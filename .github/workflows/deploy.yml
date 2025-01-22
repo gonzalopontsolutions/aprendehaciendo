@@ -84,13 +84,14 @@ jobs:
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@master
-        env:
-          SSH_PASSPHRASE: ${{secrets.SSH_PASSPHRASE}}
-          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+        # env:
+        #   SSH_PASSPHRASE: ${{secrets.SSH_PASSPHRASE}}
+        #   SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
+          # key: ${{ secrets.SERVER_SSH_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/${{ github.repository }}
             docker-compose pull
