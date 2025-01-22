@@ -44,6 +44,7 @@ jobs:
       - name: Run tests
         working-directory: ./backend
         env:
+          ENVIRONMENT: development
           DJANGO_SETTINGS_MODULE: backend.settings
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
           REDIS_URL: redis://localhost:6379/0

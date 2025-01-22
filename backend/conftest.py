@@ -1,6 +1,24 @@
 import logging
 import pytest
 import sys
+import os
+from pathlib import Path
+import django
+
+# Obtener la ruta al directorio root del proyecto
+ROOT_DIR = Path(__file__).parent.parent
+sys.path.append(str(ROOT_DIR))
+
+# Configurar las variables de entorno
+os.environ.setdefault("ENVIRONMENT", "development")
+from dotenv import load_dotenv
+
+env_file = ROOT_DIR / f'.env.{os.environ["ENVIRONMENT"]}'
+load_dotenv(env_file)
+
+# Configurar Django
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings.development")
+django.setup()
 
 
 # Configuración del logging para los tests
@@ -24,7 +42,7 @@ def setup_logging():
     return logging.getLogger("tests")
 
 
-# Opcional: Si quieres ver los logs incluso cuando la prueba pasa
+# Ver los logs incluso cuando la prueba pasa
 def pytest_configure(config):
     config.option.log_cli = True
     config.option.log_cli_level = "DEBUG"

@@ -2,19 +2,32 @@ from pathlib import Path
 from datetime import timedelta
 import os
 from django.core.exceptions import ImproperlyConfigured
+from dotenv import load_dotenv
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+ROOT_DIR = BASE_DIR.parent  # Esta será la carpeta que contiene los .env
+
+# Cargar variables de entorno según el ambiente
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+env_file = ROOT_DIR / f".env.{ENVIRONMENT}"
+
+if not env_file.exists():
+    raise ImproperlyConfigured(f"Environment file {env_file} does not exist")
+
+load_dotenv(env_file)
+
 
 def get_env_value(env_variable):
     try:
         return os.environ[env_variable]
     except KeyError:
-        error_msg = f'Set the {env_variable} environment variable'
+        error_msg = f"Set the {env_variable} environment variable"
         raise ImproperlyConfigured(error_msg)
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_env_value('SECRET_KEY')
+SECRET_KEY = get_env_value("SECRET_KEY")
 
 # Application definition
 INSTALLED_APPS = [
@@ -112,8 +125,12 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(os.environ.get('REDIS_HOST', '127.0.0.1'), 
-                      int(os.environ.get('REDIS_PORT', 6379)))],
+            "hosts": [
+                (
+                    os.environ.get("REDIS_HOST", "127.0.0.1"),
+                    int(os.environ.get("REDIS_PORT", 6379)),
+                )
+            ],
         },
     },
 }
