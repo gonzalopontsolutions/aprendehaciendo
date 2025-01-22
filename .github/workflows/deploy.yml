@@ -18,7 +18,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: mydatabase
+          POSTGRES_DB: postgres
         ports:
           - 5432:5432
         options: >-
@@ -52,7 +52,7 @@ jobs:
           DB_PASSWORD=${{ vars.DB_PASSWORD }}
           DB_HOST=${{ vars.DB_HOST }}
           DB_PORT=${{ vars.DB_PORT }}
-          DATABASE_URL=${{ vars.DATABASE_URL }}
+          DATABASE_URL=postgresql://postgres:postgres@localhost:5432/postgres
           DEBUG=${{ vars.DEBUG }}
           ALLOWED_HOSTS=${{ vars.ALLOWED_HOSTS }}
           EOF
