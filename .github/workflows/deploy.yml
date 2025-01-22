@@ -22,10 +22,6 @@ jobs:
 
       - name: Run tests
         working-directory: ./backend
-        env:
-          DJANGO_SETTINGS_MODULE: backend.settings  # Ajusta según tu proyecto
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
-          REDIS_URL: redis://localhost:6379/0
         run: |
           pytest -s --log-cli-level=DEBUG tests/test_consumers.py
 
