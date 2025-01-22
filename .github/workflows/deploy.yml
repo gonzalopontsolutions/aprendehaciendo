@@ -94,16 +94,26 @@ jobs:
             # Crear y movernos al directorio
             mkdir -p /root/***solutions/aprendehaciendo
             cd /root/***solutions/aprendehaciendo
-
-            # Clonar el repositorio (si es privado, necesitarás configurar el acceso)
-            git clone https://github.com/gonzalopontsolutions/aprendehaciendo.git .
-
-            # Si el repositorio ya existe, actualízalo
-            git pull origin main
-
-            # Verificar que el archivo existe
-            ls -la docker-compose.yml
-
+            
+            # Clonar/actualizar el repositorio
+            git clone https://github.com/***solutions/aprendehaciendo.git . || git pull origin main
+            
+            # Crear archivo .env.development
+            cat > .env.development << EOL
+            DB_NAME=${{ secrets.DB_NAME }}
+            DB_USER=${{ secrets.DB_USER }}
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            SECRET_KEY=${{ secrets.SECRET_KEY }}
+            DEBUG=True
+            ALLOWED_HOSTS=localhost,127.0.0.1
+            REDIS_HOST=redis
+            REDIS_PORT=6379
+            ENVIRONMENT=development
+            EOL
+            
+            # Verificar que los archivos existen
+            ls -la .env.development docker-compose.yml
+            
             # Ejecutar Docker
             docker-compose pull
             docker-compose up -d
